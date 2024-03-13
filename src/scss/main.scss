@@ -1,0 +1,94 @@
+/*
+	Попробувати верстати за допомогою vw широкоформатні макети
+	приклад можна подивитися тут https://lexusux.sorrytesting.mcdir.ru/
+	0.52vw = 10px формула (10/19.2) це для ширини 1920px
+	де:
+	19.2 - це 1% від ширини екрану 1920px
+	10 - це скільки px  потрібно получити
+*/
+html,
+body {
+    font-size: 0.52vw;
+    font-size: 10px;
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    min-height: -webkit-fill-available; // для того щоб в safari не було скролу якщо задано min-height: 100vh;
+    background-color: $color-main;
+}
+ul, ol, p {
+    font-size: 1.6rem;
+    line-height: 1.4em;
+    margin-bottom: 2rem;
+}
+ul, ol {
+    padding-left: 1.5rem;
+    li {
+        margin-bottom: 0.7rem;
+    }
+}
+ul {
+    li {
+        list-style: disc;
+    }
+}
+ol {
+    li {
+        list-style: decimal;
+    }
+}
+
+
+
+.countDonw{
+    display: flex;
+    margin: 3rem;
+    position: relative;
+    .block-time{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-right: 2rem;
+    }
+    .time{
+        font-size: 3rem;
+        font-weight: 700;
+    }
+    .name-time{
+        font-size: 1.3rem;
+    }
+    circle{
+        
+    }
+    &.hasSvg{
+        .block-time{
+            position: relative;
+        }
+        .wr-time{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+.testSvg{
+   
+
+}
+
+
+
+
+
+
+
+
+

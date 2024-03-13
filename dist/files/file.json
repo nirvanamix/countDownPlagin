@@ -1,0 +1,17 @@
+{
+    "abbreviation": "EET",
+    "client_ip": "91.235.226.229",
+    "datetime": "2024-03-08T11:23:06.758420+02:00",
+    "day_of_week": 5,
+    "day_of_year": 68,
+    "dst": false,
+    "dst_from": null,
+    "dst_offset": 0,
+    "dst_until": null,
+    "raw_offset": 7200,
+    "timezone": "Europe/Kyiv",
+    "unixtime": 1709889786,
+    "utc_datetime": "2024-03-08T09:23:06.758420+00:00",
+    "utc_offset": "+02:00",
+    "week_number": 10
+}
