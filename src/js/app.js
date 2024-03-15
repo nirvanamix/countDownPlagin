@@ -1,16 +1,17 @@
 class Countdown{
     constructor(selector, options){
         const defaultOptions = {
-            timeEnd: 'Mar 23 2024 20:35:00', // when the countdown ends
+            timeEnd: 'Mar 16 2025 18:20:40', // when the countdown ends
             format: 'day/hours/minutes/seconds', //  year month day hours minutes seconds
             nameTime: [ 'Днів', 'Години', 'Хвилини', 'Секунд'], // name
             startCount: 'http://worldtimeapi.org/api/timezone/Etc/UTC', // settings: "local" (machine time) or get the time from "http://worldtimeapi.org/api/timezone/Etc/UTC"
-            timeZone: 0, // time zone, work only if you use the time from the site
+            timeZone: 2, // time zone, work only if you use the time from the site
             hiddenBefoStart: false, // hide timer before load
         }
         this.options = Object.assign(defaultOptions, options);
         this.$selector = document.querySelectorAll(selector);
         this.#renderHtml();
+        this.refreshIntervalId = null; // link for setInterval
         this.getTime().then((timeNow) => {
             this.coundDown(timeNow);
         });
@@ -52,22 +53,19 @@ class Countdown{
         const getNow = (this.options.startCount.trim() != "local") ? new Date(timeNow.datetime.split(".")[0]).getTime() + (this.options.timeZone * 60 * 60 * 1000)  :  new Date(timeNow).getTime();
         const getEnd = new Date(this.options.timeEnd).getTime();
         let timeLeft = getEnd - getNow;
-        const refreshIntervalId = setInterval(() => {
+        this.refreshIntervalId = setInterval(() => {
             timeLeft = timeLeft - 1000;
             if (timeLeft < 0){
-                clearInterval(refreshIntervalId);
-                this.timerFinishedCallback(); // викликати колбек, коли таймер стане нульовим
-                this.$selector.forEach((el) => {
-                    
-                    (this.options.hiddenBefoStart == true) && (el.style.opacity = 1);
-                });
+                clearInterval(this.refreshIntervalId);
+                (typeof this.timerFinishedCallback == 'function') && (this.timerFinishedCallback())  // call the function when the timer has reached the end
+                this.$selector.forEach(el => (this.options.hiddenBefoStart == true) && (el.style.opacity = 1)); // show the countdown if it is hidden
                 return false;
             }
             const seconds = Math.floor(timeLeft / 1000);
             const minutes = Math.floor(seconds / 60);
             const hours = Math.floor(minutes / 60);
             const days = Math.floor(hours / 24);
-            let remainingDays = days % 365;
+            let remainingDays = days;
                 (remainingDays < 10) && (remainingDays = '0' + remainingDays);
             let remainingHours = hours % 24;
                 (remainingHours < 10) && (remainingHours = '0' + remainingHours);
@@ -86,6 +84,13 @@ class Countdown{
         }, 1000);
     }
     // Events to call from outside
+    destroy(){
+        clearInterval(this.refreshIntervalId); // clear setInterval in function coundDown
+        this.$selector.forEach(el => {
+            el.classList.remove('hasSvg');
+            el.innerHTML = "";
+        });
+    }
     timerFinished(callback) {
         this.timerFinishedCallback = callback; // встановлюємо колбек, який буде викликаний, коли таймер досягне нуля
     }
@@ -102,7 +107,7 @@ class CountdownMobuleSvgCircle extends Countdown {
                 smoothTransition: false,// Smooth transition from zero 59 to 0
                 strokeColor: ['rgba(0,0,0, 0.1', 'rgba(255,0,0, 0.9'], // first color for background, second color for porgress circle,
                 sizeSvg: { width: [194, 200], stroke: [1, 10] }, // the first parameter is the background circle, the second parameter is the progress circle
-                dayStart: 100, // the day from which the countdown should start, if there is such a parameter
+                dayStart: 1000, // the day from which the countdown should start, if there is such a parameter
                 mediaWidth: [
                     { size: 992, sizeSvg: { width: [120, 120], stroke: [4, 4] } },
                     { size: 720, sizeSvg: { width: [100, 100], stroke: [2, 2] } },
@@ -205,4 +210,18 @@ class CountdownMobuleSvgCircle extends Countdown {
     }
 }
 // new Countdown('.countDonw');
-new CountdownMobuleSvgCircle('.countDonw');
+let callCountDonw = new CountdownMobuleSvgCircle('.countDonw', {});
+
+
+// evetn destroy adn add plagin
+document.querySelector('.destroy').addEventListener('click', () => {
+    callCountDonw.destroy();
+});
+document.querySelector('.runSvg').addEventListener('click', () => {
+    callCountDonw.destroy();
+    callCountDonw = new CountdownMobuleSvgCircle('.countDonw', {});
+});
+document.querySelector('.runSimple').addEventListener('click', () => {
+    callCountDonw.destroy();
+    callCountDonw = new Countdown('.countDonw', {});
+});
