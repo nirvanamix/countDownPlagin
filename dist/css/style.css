@@ -222,3 +222,45 @@ ol li {
       -ms-flex-pack: center;
           justify-content: center;
 }
+
+.flip-clock {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 24px;
+}
+
+.flip-digit {
+  width: 30px;
+  height: 40px;
+  border: 1px solid black;
+  text-align: center;
+  -webkit-transition: -webkit-transform 0.5s ease-in-out;
+  transition: -webkit-transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
+}
+
+.flip-separator {
+  margin: 0 5px;
+}
+
+.flip-up,
+.flip-down {
+  -webkit-transform-origin: bottom center;
+      -ms-transform-origin: bottom center;
+          transform-origin: bottom center;
+}
+
+.flip-up {
+  -webkit-transform: rotateX(90deg);
+          transform: rotateX(90deg);
+}
+
+.flip-down {
+  -webkit-transform: rotateX(-90deg);
+          transform: rotateX(-90deg);
+}

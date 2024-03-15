@@ -79,14 +79,40 @@ ol {
     }
 }
 
-.testSvg{
-   
 
+
+
+
+.flip-clock {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
 }
 
+.flip-digit {
+    width: 30px;
+    height: 40px;
+    border: 1px solid black;
+    text-align: center;
+    transition: transform 0.5s ease-in-out;
+}
 
+.flip-separator {
+    margin: 0 5px;
+}
 
+.flip-up,
+.flip-down {
+    transform-origin: bottom center;
+}
 
+.flip-up {
+    transform: rotateX(90deg);
+}
+
+.flip-down {
+    transform: rotateX(-90deg);
+}
 
 
 
